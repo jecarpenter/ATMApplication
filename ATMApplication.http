@@ -1,0 +1,86 @@
+@ATMApplication_HostAddress = https://localhost:7132
+# Alternative: @ATMApplication_HostAddress = http://localhost:5209
+
+### Health Check
+GET {{ATMApplication_HostAddress}}/api/health
+Accept: application/json
+
+### Get All Accounts
+GET {{ATMApplication_HostAddress}}/api/accounts
+Accept: application/json
+
+### Get Checking Account Transaction History
+GET {{ATMApplication_HostAddress}}/api/accounts/checking/transactions
+Accept: application/json
+
+### Get Savings Account Transaction History
+GET {{ATMApplication_HostAddress}}/api/accounts/savings/transactions
+Accept: application/json
+
+### Deposit to Checking Account
+POST {{ATMApplication_HostAddress}}/api/accounts/checking/deposit
+Content-Type: application/json
+
+{
+  "amount": 250.00
+}
+
+### Deposit to Savings Account
+POST {{ATMApplication_HostAddress}}/api/accounts/savings/deposit
+Content-Type: application/json
+
+{
+  "amount": 500.00
+}
+
+### Withdraw from Checking Account
+POST {{ATMApplication_HostAddress}}/api/accounts/checking/withdraw
+Content-Type: application/json
+
+{
+  "amount": 100.00
+}
+
+### Withdraw from Savings Account
+POST {{ATMApplication_HostAddress}}/api/accounts/savings/withdraw
+Content-Type: application/json
+
+{
+  "amount": 200.00
+}
+
+### Transfer from Checking to Savings
+POST {{ATMApplication_HostAddress}}/api/accounts/transfer
+Content-Type: application/json
+
+{
+  "fromAccountType": "Checking",
+  "toAccountType": "Savings",
+  "amount": 300.00
+}
+
+### Transfer from Savings to Checking
+POST {{ATMApplication_HostAddress}}/api/accounts/transfer
+Content-Type: application/json
+
+{
+  "fromAccountType": "Savings",
+  "toAccountType": "Checking",
+  "amount": 150.00
+}
+
+### Test Invalid Deposit (should fail validation)
+POST {{ATMApplication_HostAddress}}/api/accounts/checking/deposit
+Content-Type: application/json
+
+{
+  "amount": -50.00
+}
+
+### Test Insufficient Funds Withdrawal (should fail)
+POST {{ATMApplication_HostAddress}}/api/accounts/checking/withdraw
+Content-Type: application/json
+
+{
+  "amount": 999999.00
+}
